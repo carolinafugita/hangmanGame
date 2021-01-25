@@ -1,20 +1,9 @@
 import React from 'react';
 import './App.css';
 import fetchFilmes from './fetchFilmes';
+import Teclado from './Teclado'
 
 const i = Math.floor(Math.random() * 2);
-
-class Input extends React.Component{
-  render(){
-
-    return(
-      <input
-      onKeyDown = {this.props.onKeyDown}
-      onChange = {this.props.onChange}>
-      </input>
-    )
-  }
-}
 
 class Erros extends React.Component{
   render(){
@@ -94,8 +83,7 @@ class App extends React.Component {
       letrasCorretas : new Set ()
 
     }
-
-    this.keyPress = this.enter.bind(this);
+    
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -109,16 +97,11 @@ class App extends React.Component {
     });
   }
 
-  enter = (event) => {
-    if(event.key === 'Enter') {
-      event.target.value = '';
-      this.jogo();   
-    }
-  }
-
   handleChange = (event) => {
     let l = puxaLetra(event.target.value);
     this.setState({letra: l});
+    this.jogo();
+    console.log(this.state.letra);
   }
 
   adicionarLetraUsada = () => {
@@ -191,36 +174,23 @@ class App extends React.Component {
 
   resultado = () => {
    if(this.state.acabou){
-    if(this.state.erros === 5){
-      return (
-        <div>
-          <h1>Fim!</h1>
-          <p>O Filme era "{this.state.filme.nome}".</p>
-          <button onClick = {() => window.location.reload(false)}>Novo Jogo</button>
-        </div>
-       )
-     }
-    else{
-      return (
-        <div>
-          <h1>Acertou!</h1>
-          <p>O Filme era "{this.state.filme.nome}".</p>
-          <button onClick = {() => window.location.reload(false)}>Novo Jogo</button>
-        </div>
-       )
-     }
-   }
+    let mensagemFinal = (this.state.erros === 5) ? "Fim!" : "Acertou!";
+    return (
+      <div className = "palavra">
+        <h1>{mensagemFinal}</h1>
+        <p>O Filme era "{this.state.filme.nome}".</p>
+        <button onClick = {() => window.location.reload(false)}>Novo Jogo</button>
+      </div>
+      )
+    }
    else{
-     let dicas = [
+    let dicas = [
        'Gênero(s): ' + this.state.filme.generos,
        'Data de Lançamento: ' + this.state.filme.dataLancamento]
     return (
     <div>
-      <Input
-      onKeyDown = {this.enter}
-      onChange = {this.handleChange}
-      />
       <h1>{this.displayNullFix()}</h1>
+      <Teclado onClick = {this.handleChange}/>
       <Erros 
       erros = {this.state.erros} />
       <JaUsadas 
