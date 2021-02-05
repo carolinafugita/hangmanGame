@@ -18,19 +18,6 @@ class Erros extends React.Component{
   }
 }
 
-class JaUsadas extends React.Component{
-  render(){
-
-    let jaUsadas = "Letras já usadas: " + imprimirSet(this.props.jaUsadas);
-
-    return(
-      <div>
-        <h1>{jaUsadas}</h1>
-      </div>
-    )
-  }
-}
-
 
 class Dicas extends React.Component{
 
@@ -67,11 +54,13 @@ class App extends React.Component {
   constructor(props){
     super(props);
 
+    this.letras = "abcdefghijklmnopqrstuvwxyz0123456789";
+
     this.state = {
       erros : 0,
       acabou : false,
       letra : null,
-      jaUsadas : new Set (),
+      letrasJaClicadas : new Array(36).fill(false),
       palavra_display : display ( "default" ),
       atualizado : false,
       filme : {
@@ -84,7 +73,6 @@ class App extends React.Component {
 
     }
     
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount = async () => {
@@ -97,23 +85,23 @@ class App extends React.Component {
     });
   }
 
-  handleChange = (event) => {
-    let l = puxaLetra(event.target.value);
-    this.setState({letra: l});
-    this.jogo();
-    console.log(this.state.letra);
-  }
-
-  adicionarLetraUsada = () => {
-    let a = this.state.letra,
-        jaUsadas = this.state.jaUsadas;
+  clicaLetra = (event) => {
     
-    jaUsadas.add(a);
+    let l = event.target.value;
+    let letrasJaClicadas = this.state.letrasJaClicadas;
+    letrasJaClicadas[l] = true;
 
-    this.setState({
-      jaUsadas : jaUsadas
-    })
+    this.setState({letrasJaClicadas : letrasJaClicadas})
+    
+    this.setState({letra: this.letras[l]});
+    
+    setTimeout(() => {
+      console.log(this.state.letra);
+      this.jogo();
+    }, 200);
+    
   }
+
 
   letraErrada = () => {
     let erro = this.state.erros;
@@ -152,13 +140,11 @@ class App extends React.Component {
         jaUsadas = this.state.jaUsadas;
 
     if(letra){
-      if( this.state.letrasCorretas.has(letra) === false && jaUsadas.has(letra) === false ){
+      if( this.state.letrasCorretas.has(letra) === false ){
         this.letraErrada();
-        this.adicionarLetraUsada();
       }
-      else if( this.state.letrasCorretas.has(letra) === true && jaUsadas.has(letra) === false){
+      else if( this.state.letrasCorretas.has(letra) === true ){
         this.inserirLetra();
-        this.adicionarLetraUsada();
       }
     }
   }
@@ -189,12 +175,13 @@ class App extends React.Component {
        'Data de Lançamento: ' + this.state.filme.dataLancamento]
     return (
     <div>
-      <h1>{this.displayNullFix()}</h1>
-      <Teclado onClick = {this.handleChange}/>
+      <p className  = "palavra">{this.displayNullFix()}</p>
+      <Teclado
+        onClick = {this.clicaLetra}
+        botaoClicado = {this.state.letrasJaClicadas} 
+      />
       <Erros 
       erros = {this.state.erros} />
-      <JaUsadas 
-      jaUsadas = {this.state.jaUsadas}/>
       <Dicas
       dicas = {dicas}/>
     </div>
@@ -204,10 +191,10 @@ class App extends React.Component {
 
   render(){
     return (
-      <div className = "palavra">
-        <h1>
-          Jogo da Forca
-        </h1>
+      <div className = "forca">
+        <header>
+          <h1> Qual é o filme? </h1>
+        </header>
         {this.resultado()}
       </div>
     );
@@ -217,25 +204,6 @@ class App extends React.Component {
 
 export default App;
 
-function puxaLetra(a){ // puxa letra do input
-  let letra = a.toLowerCase();
-  let _letrasValidas = new Set ("abcdefghijklmnopqrstuvxywz0123456789");
-  if( _letrasValidas.has(letra) ){
-    return letra;	
-  }
-  else{
-    return null;
-  }
-}
-
-function imprimirSet(_set){
-  let _set_array = Array.from(_set),
-      _setImprimir = '';
-  for(let i = 0; i < _set_array.length; i++){
-    _setImprimir += ' ' + _set_array[i];
-  }
-  return _setImprimir;
-}
 
 function display (palavra){
 

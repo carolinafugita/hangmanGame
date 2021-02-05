@@ -1,5 +1,5 @@
 
-.palavra {
+.forca {
   text-align: center;
   height: 100vh;
   justify-content: center;
@@ -19,52 +19,43 @@
 }
 
 .letra {
-  background: #1d1f24;
-  border: 1px solid rgb(168, 164, 164);
+  background: #111214;
+  border: 1px solid rgb(77, 76, 76);
   float: left;
   font-family: "Courier New";
-  color: #f7f8fc;
+  color: #f6f6f8;
   font-size: 24px;
   font-weight: bold;
   line-height: 40px;
   height: 40px;
   width: 40px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
+  margin-right: 4px;
+  margin-top: 4px;
+  padding: 4px;
   text-align: center;
 }
 
-.letra_clicada {
-  background: #1d1f24;
-  border: 1px solid rgb(100, 99, 99);
-  float: left;
-  font-family: "Courier New";
-  color: #58585a;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 40px;
-  height: 40px;
-  width: 40px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
+.letra:disabled {
+  background-color: #1d1f24;
+  color: #8c8c8f;
 }
 
 .letra:focus {
-  outline: none;
+  outline : none;
 }
 
-.linha_teclado {
-  clear: both;
-  content: "";
-  display: flex;
+.letra:hover:enabled {
+  transform: scale(0.98);
+  transition-duration: 0.2s;
 }
 
 .teclado {
-  width: 50%;
-  justify-content: center;
-  display : table-row-group;
-  align-items: center;
+  margin: auto;
+  display: table;
+  /*background-color: #373b42;*/
+}
+
+.palavra {
+  height: 70px;
+  font-size: 28px;
 }
