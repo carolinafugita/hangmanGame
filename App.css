@@ -5,10 +5,14 @@
   justify-content: center;
   align-items: center;
   background-color: #1d1f24;
-  color: #f7f8fc;
+  color: #dfdedd;
   display: 'flex';
   font-family: "Courier New";
-  font-size: large;
+  font-size: 28px;
+}
+
+.body {
+  margin: 10px;
 }
 
 .inserir {
@@ -24,11 +28,11 @@
   float: left;
   font-family: "Courier New";
   color: #f6f6f8;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
-  line-height: 40px;
-  height: 40px;
-  width: 40px;
+  line-height: 50px;
+  height: 50px;
+  width: 50px;
   margin-right: 4px;
   margin-top: 4px;
   padding: 4px;
@@ -55,7 +59,83 @@
   /*background-color: #373b42;*/
 }
 
+.filme {
+  max-width: 1100px;
+  min-height: 150px;
+	margin: 0 auto;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+  color: #f6f6f8;
+}
+
 .palavra {
-  height: 70px;
-  font-size: 28px;
+  height: 50px;
+  margin: auto;
+  margin-right:50px;
+  margin-left:50px;
+  display: inline-block;
+  font-size: 35px;
+  font-weight: bold;
+  color: #f6f6f8;
+}
+
+.erro {
+  background: #111214;
+  border: 1px solid rgb(77, 76, 76);
+  font-family: "Courier New";
+  color: #4b4a4a;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 40px;
+  height: 100px;
+  width: 80px;
+  padding: 4px;
+  margin-top: 40px;
+  margin-right: 5px;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.erroMarcado {
+  background: #111214;
+  border: 1px solid rgb(77, 76, 76);
+  font-family: "Courier New";
+  color: #b41111;
+  /*text-shadow: 3px #f7f8fc;*/
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 40px;
+  height: 100px;
+  width: 80px;
+  padding: 4px;
+  margin-top: 40px;
+  margin-right: 5px;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.erros {
+  text-align: center;
+  margin: auto;
+  display: inline-flex;
+}
+
+.botao {
+  height: 50px;
+  width: 150px;
+  background-color:#dfc012;
+  border: 1px solid rgb(77, 76, 76);
+  color:rgb(41, 40, 40);
+  font-size: 23px;
+  font-weight: bold;
+  font-family: "Courier New";
+}
+
+.botao:hover {
+  transform: scale(0.98);
+  transition-duration: 0.2s;
 }

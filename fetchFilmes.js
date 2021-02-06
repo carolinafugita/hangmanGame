@@ -67,7 +67,6 @@ async function fetchFilmesLista (){
         .then( function(data) {
             return data.results[filme_aleatorio];
         })
-    console.log(filme);
     return filme;
 }
 

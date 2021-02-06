@@ -3,46 +3,27 @@ import './App.css';
 import fetchFilmes from './fetchFilmes';
 import Teclado from './Teclado'
 
-const i = Math.floor(Math.random() * 2);
-
 class Erros extends React.Component{
-  render(){
-
-    let erros = "Erros: " + (this.props.erros) + "/5"
-
-    return(
-      <div>
-        <h1>{erros}</h1>
-      </div>
-    )
-  }
-}
-
-
-class Dicas extends React.Component{
-
-  constructor(props){
-    super(props);
-    this.state = {
-      dica : ''
-    }
-  }
-
-  displayDicas = () => {
-
-    let dica = this.props.dicas[i];
-
-    this.setState({
-      dica : dica
-    })
-  }
 
   render(){
 
     return(
-      <div>
-        <button onClick = {this.displayDicas}>Dica</button>
-        <p>{this.state.dica}</p>
+      <div className = "erros">
+        <div className = {this.props.erros.vErros[0] ? "erroMarcado" : "erro"}>
+          <h1> X </h1>
+        </div>
+        <div className = {this.props.erros.vErros[1] ? "erroMarcado" : "erro"}>
+          <h1> X </h1>
+        </div>
+        <div className = {this.props.erros.vErros[2] ? "erroMarcado" : "erro"}>
+          <h1> X </h1>
+        </div>
+        <div className = {this.props.erros.vErros[3] ? "erroMarcado" : "erro"}>
+          <h1> X </h1>
+        </div>
+        <div className = {this.props.erros.vErros[4] ? "erroMarcado" : "erro"}>
+          <h1> X </h1>
+        </div>
       </div>
     )
   }
@@ -57,7 +38,11 @@ class App extends React.Component {
     this.letras = "abcdefghijklmnopqrstuvwxyz0123456789";
 
     this.state = {
-      erros : 0,
+
+      erros : {
+        indice : -1,
+        vErros : new Array(5).fill(false)
+      },
       acabou : false,
       letra : null,
       letrasJaClicadas : new Array(36).fill(false),
@@ -96,7 +81,6 @@ class App extends React.Component {
     this.setState({letra: this.letras[l]});
     
     setTimeout(() => {
-      console.log(this.state.letra);
       this.jogo();
     }, 200);
     
@@ -105,10 +89,13 @@ class App extends React.Component {
 
   letraErrada = () => {
     let erro = this.state.erros;
-    erro = erro +1;
-    this.setState({ erros : erro })
+    erro.indice = erro.indice +1;
+    erro.vErros[erro.indice] = true;
+    this.setState({
+      erros : erro 
+    })
 
-    if(erro === 5){
+    if(erro.indice +1 === 5){
       this.setState({ acabou : true });
     }
   }
@@ -128,7 +115,6 @@ class App extends React.Component {
     this.setState({
       palavra_display : palavra_display
     })
-    console.log(palavra_display);
 
     if(filme === palavra_display.join('')){
       this.setState({ acabou : true });
@@ -136,8 +122,7 @@ class App extends React.Component {
   }
 
   jogo = () =>{
-    let letra = this.state.letra,
-        jaUsadas = this.state.jaUsadas;
+    let letra = this.state.letra;
 
     if(letra){
       if( this.state.letrasCorretas.has(letra) === false ){
@@ -154,36 +139,34 @@ class App extends React.Component {
       return "LOADING...";
     }
     else{
-      return displaySpace(this.state.palavra_display); /*.join */
+      return displayPalavras(this.state.palavra_display); 
     }
   }
 
   resultado = () => {
    if(this.state.acabou){
-    let mensagemFinal = (this.state.erros === 5) ? "Fim!" : "Acertou!";
+    let mensagemFinal = (this.state.erros.indice +1 === 5) ? "Fim!" : "Acertou!";
+
     return (
-      <div className = "palavra">
+      <div>
         <h1>{mensagemFinal}</h1>
         <p>O Filme era "{this.state.filme.nome}".</p>
-        <button onClick = {() => window.location.reload(false)}>Novo Jogo</button>
+        <button className = "botao" onClick = {() => window.location.reload(false)}>Novo Jogo</button>
       </div>
       )
     }
    else{
-    let dicas = [
-       'Gênero(s): ' + this.state.filme.generos,
-       'Data de Lançamento: ' + this.state.filme.dataLancamento]
+    
     return (
     <div>
-      <p className  = "palavra">{this.displayNullFix()}</p>
+      <section className  = "filme">{this.displayNullFix()}</section>
       <Teclado
         onClick = {this.clicaLetra}
         botaoClicado = {this.state.letrasJaClicadas} 
       />
       <Erros 
-      erros = {this.state.erros} />
-      <Dicas
-      dicas = {dicas}/>
+      erros = {this.state.erros}
+      />
     </div>
     )
    }
@@ -195,7 +178,9 @@ class App extends React.Component {
         <header>
           <h1> Qual é o filme? </h1>
         </header>
-        {this.resultado()}
+        <div className = "body">
+          {this.resultado()}
+        </div>
       </div>
     );
   }
@@ -207,7 +192,7 @@ export default App;
 
 function display (palavra){
 
-  const characProblematicos = new Set (": '-?!.&,½");
+  const characProblematicos = new Set ("$@*)/}{(#: '-?!.&,;=½+-][%><ºª");
   let palavra_display = Array(palavra.length);
 
   for (let i = 0; i < palavra.length; i++) {
@@ -222,10 +207,18 @@ function display (palavra){
   return palavra_display;
 }
 
-function displaySpace (palavra_display){
-  let rv = palavra_display.map((tag) => {
-  return (<nobr>{tag}&nbsp;</nobr>);
- })
- return rv;
+function displayPalavras (palavra_display){
 
+  let vetores = palavra_display.join('').split(" ");
+  
+  let abc = vetores.map( (palavra , i) => {
+    return(
+      <div
+        className = "palavra"
+        key={i} >
+          {palavra.split('').join(' ')}
+      </div>)
+  })
+
+  return abc;
 }
