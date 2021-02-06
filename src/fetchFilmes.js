@@ -1,4 +1,4 @@
-import api_key from './api_key';
+import api_key from './Api_key';
 
 const pag_aleatoria = Math.floor(Math.random() * 400).toString() /*parece dar problema para pags > 400*/,
       filme_aleatorio = Math.floor(Math.random() * 20);
@@ -20,9 +20,11 @@ async function fetchFilmes (){
     const filme_detalhes = {
         nome : filme.title,
         nomeSemAcento : semAcentos(filme.title),
-        dataLancamento : filme.release_date,
-        generos : gen.join('/ '),
-        atualizado : true
+        dataLancamento : new Date (filme.release_date),
+        generos : gen.join(' / '),
+        atualizado : true,
+        foto : filme.poster_path,
+        sinopse : filme.overview
     }
     
     return filme_detalhes;
@@ -67,6 +69,7 @@ async function fetchFilmesLista (){
         .then( function(data) {
             return data.results[filme_aleatorio];
         })
+
     return filme;
 }
 

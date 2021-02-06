@@ -5,9 +5,9 @@
   justify-content: center;
   align-items: center;
   background-color: #1d1f24;
-  color: #dfdedd;
+  color: #d8db28;
   display: 'flex';
-  font-family: "Courier New";
+  font-family: "Verdana";
   font-size: 28px;
 }
 
@@ -61,7 +61,7 @@
 
 .filme {
   max-width: 1100px;
-  min-height: 150px;
+  min-height: 100px;
 	margin: 0 auto;
   justify-content: center;
   margin-top: 30px;
@@ -103,7 +103,7 @@
 .erroMarcado {
   background: #111214;
   border: 1px solid rgb(77, 76, 76);
-  font-family: "Courier New";
+  font-family: "Verdana";
   color: #b41111;
   /*text-shadow: 3px #f7f8fc;*/
   font-size: 24px;
@@ -132,10 +132,38 @@
   color:rgb(41, 40, 40);
   font-size: 23px;
   font-weight: bold;
-  font-family: "Courier New";
+  font-family: "Verdana";
 }
 
 .botao:hover {
   transform: scale(0.98);
   transition-duration: 0.2s;
+}
+
+.blocoTelaFinal {
+  width: 600px;
+  padding: 15px;
+  margin: auto;
+  background-color:#161616;
+  border: 1px solid rgb(77, 76, 76);
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.detalhesFilme {
+  color :rgb(238, 235, 235);
+  text-align: right;
+  font-size: 13px;
+  padding: 15px;
+  font-family: "Verdana";
+}
+
+.detalhesFilme>h1 {
+  font-size: 30px;
+  text-align: right;
+}
+
+.detalhesFilme>h2 {
+  font-size: 15px;
+  text-align: right;
 }

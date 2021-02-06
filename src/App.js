@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 import fetchFilmes from './fetchFilmes';
-import Teclado from './Teclado'
+import Teclado from './Teclado';
+import TelaFinal from './TelaFinal';
 
 class Erros extends React.Component{
 
@@ -51,8 +52,10 @@ class App extends React.Component {
       filme : {
         nome : "default",
         nomeSemAcento : "default",
-        dataLancamento : '1900-01-01',
-        generos : ['default']
+        dataLancamento : new Date ("1990-01-01"),
+        generos : ['default'],
+        foto : "default",
+        sinopse : "default"
       },
       letrasCorretas : new Set ()
 
@@ -145,42 +148,44 @@ class App extends React.Component {
 
   resultado = () => {
    if(this.state.acabou){
-    let mensagemFinal = (this.state.erros.indice +1 === 5) ? "Fim!" : "Acertou!";
 
     return (
-      <div>
-        <h1>{mensagemFinal}</h1>
-        <p>O Filme era "{this.state.filme.nome}".</p>
-        <button className = "botao" onClick = {() => window.location.reload(false)}>Novo Jogo</button>
-      </div>
+      <TelaFinal
+        erros = {this.state.erros.indice}
+        filme = {this.state.filme}
+      />
       )
     }
+    
    else{
     
     return (
     <div>
-      <section className  = "filme">{this.displayNullFix()}</section>
-      <Teclado
-        onClick = {this.clicaLetra}
-        botaoClicado = {this.state.letrasJaClicadas} 
-      />
-      <Erros 
-      erros = {this.state.erros}
-      />
+      <header>
+          <h1> Qual é o filme? </h1>
+      </header>
+      <div className = "body">
+        <section className  = "filme">
+          {this.displayNullFix()}
+        </section>
+        <Teclado
+          onClick = {this.clicaLetra}
+          botaoClicado = {this.state.letrasJaClicadas} 
+        />
+        <Erros 
+        erros = {this.state.erros}
+        />
+      </div>
     </div>
     )
+    
    }
   }
 
   render(){
     return (
       <div className = "forca">
-        <header>
-          <h1> Qual é o filme? </h1>
-        </header>
-        <div className = "body">
           {this.resultado()}
-        </div>
       </div>
     );
   }
